@@ -92,19 +92,43 @@ const KANA_MAP: &'static [(&'static str, &'static str)] = &[
 
 pub fn hankaku_katakana_to_zenkaku_katakana(src: &str) -> String {
     let mut result = String::new();
-    for c in src.chars() {
+    let mut chars = src.chars().peekable();
+
+    while let Some(c) = chars.next() {
         let mut found = false;
-        for (hankaku, zenkaku) in KANA_MAP {
-            if c == hankaku.chars().next().unwrap() {
-                result.push_str(zenkaku);
-                found = true;
-                break;
+
+        // 濁点・半濁点のチェック（次の文字がﾞまたはﾟの場合）
+        if let Some(&next_c) = chars.peek() {
+            if next_c == 'ﾞ' || next_c == 'ﾟ' {
+                let combined = format!("{}{}", c, next_c);
+
+                for (hankaku, zenkaku) in KANA_MAP {
+                    if &combined == hankaku {
+                        result.push_str(zenkaku);
+                        found = true;
+                        chars.next(); // 濁点・半濁点を消費
+                        break;
+                    }
+                }
             }
         }
+
+        // 単独の文字の処理
         if !found {
-            result.push(c);
+            for (hankaku, zenkaku) in KANA_MAP {
+                if &c.to_string() == hankaku {
+                    result.push_str(zenkaku);
+                    found = true;
+                    break;
+                }
+            }
+
+            if !found {
+                result.push(c);
+            }
         }
     }
+
     result
 }
 
