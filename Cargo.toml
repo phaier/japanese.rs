@@ -3,5 +3,12 @@ name = "phaier_japanese"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default = []
+kana = []
+roman = []
+csv = ["encoding_rs"]
+all = ["kana", "roman", "csv"]
+
 [dependencies]
-encoding_rs = "0.8.35"
+encoding_rs = { version = "0.8.35", optional = true }

@@ -70,7 +70,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_parse_simple_utf8_csv() {
+    fn test_parse() {
         let data = b"name,age,city\nAlice,30,Tokyo\nBob,25,Osaka";
         let result = parse_csv(data, Encoding::Utf8).unwrap();
 
