@@ -5,6 +5,15 @@ pub enum Error {
     FailedToDecode,
 }
 
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Error::FailedToDecode => write!(f, "Failed to decode the CSV data"),
+        }
+    }
+}
+impl std::error::Error for Error {}
+
 /// CSV文字エンコーディングの種類
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Encoding {
