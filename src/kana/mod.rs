@@ -1,7 +1,9 @@
 pub mod hankaku;
 
 /// テキストに含まれる全てのカタカナを平仮名に変換します
-/// @param text 入力のテキスト
+///
+/// # Arguments
+/// + `text` - 入力のテキスト
 pub fn katakana_to_hiragana(text: &str) -> String {
     text.chars()
         .map(|c| {
@@ -15,7 +17,9 @@ pub fn katakana_to_hiragana(text: &str) -> String {
 }
 
 /// テキストに含まれる全てのひらがなをカタカナに変換します
-/// @param text 入力のテキスト
+///
+/// # Arguments
+/// + `text` - 入力のテキスト
 pub fn hiragana_to_katakana(text: &str) -> String {
     text.chars()
         .map(|c| {
@@ -37,14 +41,18 @@ pub fn to_katakana(text: &str) -> String {
 }
 
 /// テキストに含まれる全ての文字がひらがなかどうか
-/// @param text 入力のテキスト
+///
+/// # Arguments
+/// + `text` - 入力のテキスト
 pub fn is_all_hiragana(text: &str) -> bool {
     text.chars()
         .all(|c| ('\u{3041}'..='\u{3096}').contains(&c) || c == '\u{30FC}')
 }
 
 /// テキストに含まれる全ての文字がカタカナかどうか
-/// @param text 入力のテキスト
+///
+/// # Arguments
+/// + `text` - 入力のテキスト
 pub fn is_all_katakana(text: &str) -> bool {
     text.chars()
         .all(|c| ('\u{30A1}'..='\u{30F6}').contains(&c) || c == '\u{30FC}')
