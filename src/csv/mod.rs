@@ -1,5 +1,3 @@
-use encoding_rs::SHIFT_JIS;
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Error {
     FailedToDecode,
@@ -14,27 +12,7 @@ impl std::fmt::Display for Error {
 }
 impl std::error::Error for Error {}
 
-/// CSV文字エンコーディングの種類
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Encoding {
-    /// UTF-8エンコーディング
-    Utf8,
-    /// Shift-JISエンコーディング
-    ShiftJis,
-}
-
-pub fn parse_csv(data: &[u8], encoding: Encoding) -> Result<Vec<Vec<String>>, Error> {
-    let content = match encoding {
-        Encoding::Utf8 => String::from_utf8_lossy(data).to_string(),
-        Encoding::ShiftJis => {
-            let (cow, _encoding_used, had_errors) = SHIFT_JIS.decode(data);
-            if had_errors {
-                return Err(Error::FailedToDecode);
-            }
-            cow.into_owned()
-        }
-    };
-
+pub fn parse_csv(content: &str) -> Result<Vec<Vec<String>>, Error> {
     let mut rows = Vec::new();
     let mut row = Vec::new();
     let mut column = Vec::new();
@@ -80,8 +58,8 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let data = b"name,age,city\nAlice,30,Tokyo\nBob,25,Osaka";
-        let result = parse_csv(data, Encoding::Utf8).unwrap();
+        let content = "name,age,city\nAlice,30,Tokyo\nBob,25,Osaka";
+        let result = parse_csv(content).unwrap();
 
         assert_eq!(
             result,

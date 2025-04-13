@@ -1,14 +1,16 @@
 [package]
 name = "phaier_japanese"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
+authors = ["Toshiaki Inahata <darwin49@gmail.com>"]
+description = "A library for Japanese text processing"
+license = "MIT"
 
 [features]
 default = []
 kana = []
 roman = []
-csv = ["encoding_rs"]
+csv = []
 all = ["kana", "roman", "csv"]
 
 [dependencies]
-encoding_rs = { version = "0.8.35", optional = true }
